@@ -1,0 +1,54 @@
+
+===== S1 peek: self pane refused, other pane reads the worker =====
+$ self bin/fm-peek.sh t1 20
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+error: t1 resolves to <lab-session>:w1:p2, which is this firstmate session's own pane, not a worker; the task's worker is gone - recover it with bin/fm-control.sh t1 relaunch, which creates a fresh endpoint
+[exit 1]
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+3
+
+===== S2 send: self pane refused, nothing typed into the pane =====
+$ self bin/fm-send.sh t1 SELF-SEND-PROBE
+fm-gate-refuse: gate agent lifecycle permitted only against lab home <tmp>/fm-lab.qqBKlE
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+error: t1 resolves to <lab-session>:w1:p2, which is this firstmate session's own pane, not a worker; nothing was sent - the task's worker is gone, so recover it with bin/fm-control.sh t1 relaunch, which creates a fresh endpoint
+[exit 1]
+pane w1:p2 contains SELF-SEND-PROBE: 0
+
+===== S3 crew-state: self pane reports t1 gone, other pane does not =====
+
+===== S4 session-start digest: self pane endpoint reads dead =====
+endpoint: dead (backend=herdr window=<lab-session>:w1:p2 is this firstmate session's own pane, so the task's worker is gone; recover it with bin/fm-control.sh t1 relaunch, which creates a fresh endpoint)
+endpoint: alive (backend=herdr window=<lab-session>:w1:p2)
+
+===== S5 control interrupt/exit: self pane gets no lifecycle input =====
+$ self bin/fm-control.sh t1 interrupt
+fm-gate-refuse: gate agent lifecycle permitted only against lab home <tmp>/fm-lab.qqBKlE
+error: no agent is running at task t1's recorded endpoint (state: missing); there is nothing to interrupt
+[exit 1]
+$ self bin/fm-control.sh t1 exit
+fm-gate-refuse: gate agent lifecycle permitted only against lab home <tmp>/fm-lab.qqBKlE
+endpoint-gone t1 harness=claude backend=herdr endpoint=<lab-session>:w1:p2 worktree=<tmp>/fmselfwork.rBw8
+[exit 0]
+pane w1:p2 still listed: w1:p1,w1:p2
+
+===== S6 teardown --force: self pane refused before mutation =====
+$ self bin/fm-teardown.sh t1 --force
+fm-gate-refuse: gate agent lifecycle permitted only against lab home <tmp>/fm-lab.qqBKlE
+REFUSED: task t1's recorded endpoint <lab-session>:w1:p2 is this firstmate session's own pane, so teardown would close the session itself. Nothing was changed.
+The task's worker is gone: recover it (bin/fm-control.sh t1 relaunch), which records a fresh endpoint, then retry teardown; the recovery names the tab to rename first if this session's tab still carries fm-t1.
+[exit 1]
+t1.meta present: yes
+panes: w1:p1,w1:p2
+tabs: w1:t1=1,w1:t2=fm-t1
+
+===== S7 secondmate record: refusal names fm-spawn --secondmate =====
+$ self bin/fm-peek.sh t1 20
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+error: t1 resolves to <lab-session>:w1:p2, which is this firstmate session's own pane, not a worker; the task's worker is gone - recover it with bin/fm-spawn.sh t1 --secondmate, which creates a fresh endpoint
+[exit 1]
+$ self bin/fm-send.sh t1 SELF-SEND-PROBE2
+fm-gate-refuse: gate agent lifecycle permitted only against lab home <tmp>/fm-lab.qqBKlE
+WARNING: watcher still down (same stale episode; last beat: never, grace 300s) - full banner already printed this episode.
+error: t1 resolves to <lab-session>:w1:p2, which is this firstmate session's own pane, not a worker; nothing was sent - the task's worker is gone, so recover it with bin/fm-spawn.sh t1 --secondmate, which creates a fresh endpoint
+[exit 1]

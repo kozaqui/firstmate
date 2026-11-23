@@ -1,0 +1,8 @@
+--- fm-fleet-snapshot.sh, caller pane w1:p2: task t1 endpoint
+{"endpoint":{"target":"<lab-session>:w1:p2","exists":false,"agent_alive":"not_checked","status":"absent","observed_at":"2026-11-23T02:43:59Z","freshness":"fresh"},"state":null}
+--- fm-crew-state.sh t1, caller pane w1:p2
+state: unknown · source: none · backend target gone: <lab-session>:w1:p2 is this firstmate session's own pane, so the task's worker is gone; recover it with bin/fm-control.sh t1 relaunch, which creates a fresh endpoint
+--- fm-fleet-snapshot.sh, caller pane w1:p1: task t1 endpoint
+{"endpoint":{"target":"<lab-session>:w1:p2","exists":true,"agent_alive":"not_checked","status":"unknown","observed_at":"2026-11-23T02:43:59Z","freshness":"fresh"},"state":null}
+--- fm-crew-state.sh t1, caller pane w1:p1
+state: unknown · source: pane · harness state unavailable (unknown missing)

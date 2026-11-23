@@ -1,0 +1,7 @@
+$ bin/fm-control.sh t1 relaunch --note "lab probe"   (caller = lab pane w1:p2 with the lab socket; its tab w1:t2 still labelled fm-t1)
+error: herdr tab 'fm-t1' (w1:t2) in workspace w1 (session <lab-session>) is this firstmate session's own tab, restored from the task's old endpoint; rename it (herdr --session <lab-session> tab rename w1:t2 <new-label>) and retry
+error: the replacement agent for t1 could not be launched on claude
+error: t1's agent was stopped but the replacement did not launch; no agent is running, and its work plus the recorded progress note are preserved at <tmp>/fmselfwt-20629
+[exit 1]
+tabs after: w1:t1=1,w1:t2=fm-t1
+panes after: w1:p1,w1:p2
